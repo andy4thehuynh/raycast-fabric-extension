@@ -19,30 +19,30 @@ export default function Command() {
   const [fabricPath, setFabricPath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Load patterns on mount
   useEffect(() => {
     async function init() {
       try {
-        // Find fabric command
         const path = await findFabricCommand();
         if (!path) {
           setError("Fabric command not found. Please install fabric first.");
           setIsLoading(false);
+
           return;
         }
         setFabricPath(path);
 
-        // Load patterns
         const loadedPatterns = await loadPatterns();
         if (loadedPatterns.length === 0) {
           setError("No fabric patterns found in ~/.config/fabric/patterns");
           setIsLoading(false);
+
           return;
         }
-
         setPatterns(loadedPatterns);
+
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to initialize");
+
       } finally {
         setIsLoading(false);
       }
@@ -51,7 +51,6 @@ export default function Command() {
     init();
   }, []);
 
-  // Show error state
   if (error) {
     return (
       <Detail
@@ -100,7 +99,6 @@ function RunPatternView({ pattern, fabricPath }: { pattern: Pattern; fabricPath:
   const [clipboardContent, setClipboardContent] = useState<string>("");
   const [shouldExecute, setShouldExecute] = useState(false);
 
-  // Read clipboard on mount
   useEffect(() => {
     async function readClipboard() {
       try {
@@ -115,6 +113,7 @@ function RunPatternView({ pattern, fabricPath }: { pattern: Pattern; fabricPath:
         }
         setClipboardContent(text);
         setShouldExecute(true);
+
       } catch (err) {
         showToast({
           style: Toast.Style.Failure,
@@ -134,6 +133,7 @@ function RunPatternView({ pattern, fabricPath }: { pattern: Pattern; fabricPath:
     {
       execute: shouldExecute && clipboardContent.length > 0,
       input: clipboardContent,
+      timeout: 300000, // 5m for LLM processing
       parseOutput: (output) => {
         return output.stdout;
       },
