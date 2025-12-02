@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "fabric-ai",
-  "title": "Fabric AI Patterns",
+  "title": "AI Patterns & Prompts",
   "description": "Run fabric AI patterns on clipboard content",
-  "icon": "👾",
+  "icon": "📒",
   "author": "Andy Huynh",
   "categories": [
     "Developer Tools",
@@ -13,7 +13,7 @@
   "commands": [
     {
       "name": "index",
-      "title": "Run Fabric Pattern",
+      "title": "Fabric",
       "description": "Select and run a fabric pattern on clipboard content",
       "mode": "view"
     }

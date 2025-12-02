@@ -4,11 +4,7 @@ import { constants } from "fs";
 import { PATTERNS_DIR, FABRIC_COMMAND_PATHS } from "./constants";
 import type { Pattern } from "./types";
 
-/**
- * Find the fabric command executable
- */
 export async function findFabricCommand(): Promise<string | null> {
-  // Try common paths
   for (const path of FABRIC_COMMAND_PATHS) {
     try {
       await access(path, constants.X_OK);
@@ -18,7 +14,6 @@ export async function findFabricCommand(): Promise<string | null> {
     }
   }
 
-  // Try using 'which' command through bash
   try {
     const { execSync } = require("child_process");
     const result = execSync("bash -lc 'which fabric'", {
